@@ -164,13 +164,13 @@ public class MenuController : MonoBehaviour
         {
             // Code to load Spells Levels
             Debug.Log("Plays Spells Levels");
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("LevelScene");
         }
         else
         {
             // Code to Load Lights Levels
             Debug.Log("Plays Lights Levels");
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("LevelScene");
         }
         
     }
@@ -181,13 +181,13 @@ public class MenuController : MonoBehaviour
         {
             // Code to load Spells Endless
             Debug.Log("Plays Spells Endless");
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("LevelScene");
         }
         else
         {
             // Code to Load Lights Endless
             Debug.Log("Plays Lights Endless");
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("LevelScene");
         }
     }
 
@@ -197,13 +197,13 @@ public class MenuController : MonoBehaviour
         {
             // Code to load Spells Time
             Debug.Log("Plays Spells Time");
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("LevelScene");
         }
         else
         {
             // Code to Load Lights Time
             Debug.Log("Plays Lights Time");
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("LevelScene");
         }
     }
 }
