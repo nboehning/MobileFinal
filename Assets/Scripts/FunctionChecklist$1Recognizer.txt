@@ -1,0 +1,14 @@
+Read		XXXXXXXX
+Compare		XXXXXXXX
+Resample	XXXXXXXX
+PathLength	XXXXXXXX
+FindCentroid	XXXXXXXX
+FindBoundingBox	XXXXXXXX
+IndicativeAngle	XXXXXXXX
+RotateBy
+ScaleTo
+TranslateTo
+Recognize
+DistanceAtBestAngle
+DistanceAtAngle
+PathDistance
