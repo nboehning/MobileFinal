@@ -8,8 +8,6 @@ public static class SpellsRecognizer {
         float scoreOfBestMatch;
         points = Read(points, resolution, scaleSize);
         Recognize(points, trainingSets, out index, out scoreOfBestMatch, scaleSize);
-
-
         return scoreOfBestMatch;
     }
 
