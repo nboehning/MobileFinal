@@ -8,6 +8,8 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
 
     public Button previousSymbolButton;
     public Button nextSymbolButton;
+    public Text symbolsDisplay;
+    public Text numTrainingSetsDisplay;
 
     bool swipeStarted = false;
     List<Vector2> inputSwipe = new List<Vector2>();
@@ -32,12 +34,19 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
         //Find out how many training sets each has
         for (int i = 0; i < numSymbols; i++)
         {
-            while (File.Exists(Application.dataPath + "/Resources/Symbol" + i + "TrainingSets/Set" + numTrainingSets[i]))
+            while (File.Exists(Application.dataPath + "/Resources/Symbol" + i + "TrainingSets/Set" + numTrainingSets[i] + ".csv"))
             {
                 numTrainingSets[i]++;
             }
         }
+        UpdateDisplay();
 	}
+
+    void UpdateDisplay()
+    {
+        symbolsDisplay.text = "Symbols: " + (1 + currentSymbol) + "/" + numSymbols;
+        numTrainingSetsDisplay.text = "Training Sets: " + numTrainingSets[currentSymbol];
+    }
 
     // Update is called once per frame
     void Update()
@@ -56,6 +65,7 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
                 case TouchPhase.Ended:
                     List<Vector2> setToSave = SpellsRecognizer.Read(inputSwipe, 64);
                     //Save the training set in a new file
+                    CreateNewTrainingSetFile(setToSave);
                     swipeStarted = false;
                     break;
             }
@@ -64,6 +74,7 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
         {
             List<Vector2> setToSave = SpellsRecognizer.Read(inputSwipe, 64);
             //Save the training set in a new file
+            CreateNewTrainingSetFile(setToSave);
             swipeStarted = false;
         }
     }
@@ -87,6 +98,7 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
             {
                 previousSymbolButton.interactable = true;
             }
+            UpdateDisplay();
         }
     }
 
@@ -107,6 +119,7 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
             {
                 nextSymbolButton.interactable = true;
             }
+            UpdateDisplay();
         }
     }
 
@@ -129,9 +142,28 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
         }
         temp[numTrainingSets.Length] = 0;
         numTrainingSets = temp;
+        UpdateDisplay();
     }
 
     #endregion
+
+    void CreateNewTrainingSetFile(List<Vector2> setToSave)
+    {
+        if (File.Exists(Application.dataPath + "/Resources/Symbol" + numSymbols + "TrainingSets/Temp.txt"))
+        {
+            File.Delete(Application.dataPath + "/Resources/Symbol" + numSymbols + "TrainingSets/Temp.txt");
+        }
+
+        using (StreamWriter writer = new StreamWriter(Application.dataPath + "/Resources/Symbol" + currentSymbol + "TrainingSets/Set" + numTrainingSets[currentSymbol] + ".csv"))
+        {
+            foreach(Vector2 point in setToSave)
+            {
+                writer.WriteLine(point.x + "," + point.y);
+            }
+        }
+        numTrainingSets[currentSymbol]++;
+        UpdateDisplay();
+    }
 
     void CreateSymbolFolder()
     {
