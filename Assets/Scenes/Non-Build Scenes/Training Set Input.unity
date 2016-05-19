@@ -359,8 +359,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousSymbolButton: {fileID: 1326602507}
   nextSymbolButton: {fileID: 1326940601}
-  symbolsDisplay: {fileID: 0}
-  numTrainingSetsDisplay: {fileID: 0}
+  symbolsDisplay: {fileID: 1911188888}
+  numTrainingSetsDisplay: {fileID: 744856605}
 --- !u!81 &819831370
 AudioListener:
   m_ObjectHideFlags: 0

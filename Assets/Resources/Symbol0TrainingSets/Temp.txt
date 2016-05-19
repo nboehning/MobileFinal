@@ -1,0 +1,1 @@
+This is a temporary file, placed to ensure that source control does not delete the folder

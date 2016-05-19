@@ -168,10 +168,10 @@ public class SpellTrainingSwipeControl : MonoBehaviour {
     void CreateSymbolFolder()
     {
         Directory.CreateDirectory(Application.dataPath + "/Resources/Symbol" + numSymbols + "TrainingSets");
-        numSymbols++;
         using (StreamWriter writer = new StreamWriter(Application.dataPath + "/Resources/Symbol" + numSymbols + "TrainingSets/Temp.txt"))
         {
             writer.WriteLine("This is a temporary file, placed to ensure that source control does not delete the folder");
         }
+        numSymbols++;
     }
 }
