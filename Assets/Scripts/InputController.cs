@@ -16,21 +16,36 @@ public class InputController : MonoBehaviour {
     public GameObject lightPrefab;
     public bool isPlayingLights = false;
 
+    [SerializeField]
+    bool spellTraining = false;
+
     List<List<GameObject>> lightsGrid = new List<List<GameObject>>();
-    
+
+    List<Vector2>[][] trainingSets;
+
+    List<Vector2> inputSwipe = new List<Vector2>();
+    bool swipeStarted = false;
+
     void Start()
     {
-        Vector3 nextLightPos;
-        for (int i = 0; i < lightsRows; i++)
+        if (isPlayingLights)
         {
-            List<GameObject> tempList = new List<GameObject>();
-            for (int j = 0; j < lightsColumns; j++)
+            Vector3 nextLightPos;
+            for (int i = 0; i < lightsRows; i++)
             {
-                nextLightPos = new Vector3(((lightGridSize * i) + lightGridOffset), ((lightGridSize * j) + lightGridOffset), 0);
-                GameObject newLight = (GameObject)Instantiate(lightPrefab, nextLightPos, Quaternion.Euler(0, 0, 0));
-                tempList.Add(newLight);
+                List<GameObject> tempList = new List<GameObject>();
+                for (int j = 0; j < lightsColumns; j++)
+                {
+                    nextLightPos = new Vector3(((lightGridSize * i) + lightGridOffset), ((lightGridSize * j) + lightGridOffset), 0);
+                    GameObject newLight = (GameObject)Instantiate(lightPrefab, nextLightPos, Quaternion.Euler(0, 0, 0));
+                    tempList.Add(newLight);
+                }
+                lightsGrid.Add(tempList);
             }
-            lightsGrid.Add(tempList);
+        }
+        else
+        {
+            //Load in training sets
         }
     }
 
@@ -49,6 +64,35 @@ public class InputController : MonoBehaviour {
                         hitCollider.GetComponent<LightsToggle>().enabled = true;
                     }
                 }
+            }
+        }
+        else
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                switch(touch.phase)
+                {
+                    case TouchPhase.Began:
+                        swipeStarted = true;
+                        goto case TouchPhase.Moved;
+                    case TouchPhase.Moved:
+                        inputSwipe.Add(touch.position);
+                        break;
+                    case TouchPhase.Ended:
+                        int index;
+                        float score = SpellsRecognizer.Compare(inputSwipe, trainingSets, 64, out index);
+                        //Pass the index and score off to whatever to check if it matches/passes
+                        swipeStarted = false;
+                        break;
+                }
+            }
+            else if(swipeStarted)
+            {
+                int index;
+                float score = SpellsRecognizer.Compare(inputSwipe, trainingSets, 64, out index);
+                //Pass the index and score off to whatever to check if it matches/passes
+                swipeStarted = false;
             }
         }
 	}
